@@ -1,0 +1,27 @@
+This is Perl module Devel::FFI.
+
+INSTALLATION
+
+Devel::FFI installation is straightforward. If your CPAN shell is set up,
+you should just be able to do
+
+    % cpan Devel::FFI
+
+Download it, unpack it, then build it as per the usual:
+
+    % perl Makefile.PL
+    % make && make test
+
+Then install it:
+
+    % make install
+
+DOCUMENTATION
+
+Devel::FFI documentation is available as in POD. So you can do:
+
+    % perldoc Devel::FFI
+
+to read the documentation online with your favorite pager.
+
+Tokuhiro Matsuno
