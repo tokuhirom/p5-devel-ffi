@@ -3,6 +3,8 @@ use strict;
 use warnings;
 our $VERSION = '0.01';
 our @ISA;
+use DynaLoader;
+use Devel::FFI::Func;
 
 eval {
     require XSLoader;
@@ -14,6 +16,17 @@ eval {
     __PACKAGE__->bootstrap($VERSION);
 };
 
+sub new_func {
+    my ($class, $libname, $funcname, $proto) = @_;
+    no warnings;
+    my $mpath = DynaLoader::dl_findfile($libname);
+    my $lib = DynaLoader::dl_load_file($mpath);
+    my $fp = DynaLoader::dl_find_symbol($lib, $funcname);
+    return sub {
+        Devel::FFI::call($fp, $proto, @_)
+    };
+}
+
 1;
 __END__
 
@@ -23,7 +36,9 @@ Devel::FFI -
 
 =head1 SYNOPSIS
 
-  use Devel::FFI;
+    use Devel::FFI;
+    my $func = Devel::FFI->new_func('c', 'strlen', 'it');
+    $func->('ok'); # => 2
 
 =head1 DESCRIPTION
 
